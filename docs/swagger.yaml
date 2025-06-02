@@ -1,0 +1,266 @@
+basePath: /
+definitions:
+  get.Response:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.People'
+        type: array
+      error:
+        type: string
+      limit:
+        type: integer
+      page:
+        type: integer
+      status:
+        type: string
+      total:
+        type: integer
+    type: object
+  models.People:
+    properties:
+      age:
+        type: integer
+      gender:
+        type: string
+      name:
+        type: string
+      nationality:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+  save.Request:
+    properties:
+      name:
+        type: string
+      patronym:
+        type: string
+      surname:
+        type: string
+    required:
+    - name
+    - surname
+    type: object
+  update.Request:
+    properties:
+      age:
+        type: integer
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      nationality:
+        type: string
+      patronym:
+        type: string
+      surname:
+        type: string
+    required:
+    - id
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for managing people_info records
+  title: People API
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Get people by filters
+      parameters:
+      - description: Name
+        in: query
+        name: name
+        type: string
+      - description: Surname
+        in: query
+        name: surname
+        type: string
+      - description: Patronym
+        in: query
+        name: patronym
+        type: string
+      - description: Age
+        in: query
+        name: age
+        type: integer
+      - description: Gender
+        in: query
+        name: gender
+        type: string
+      - description: Nationality
+        in: query
+        name: nationality
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Items per page
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/get.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/get.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/get.Response'
+      tags:
+      - People
+  /people:
+    post:
+      consumes:
+      - application/json
+      description: Save person by name, surname and optional patronym
+      parameters:
+      - description: Name, surname and optional patronym
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/save.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      tags:
+      - People
+  /people/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete person by ID
+      parameters:
+      - description: Person ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      tags:
+      - People
+    patch:
+      consumes:
+      - application/json
+      description: Update person by ID with any of their information (partial or full)
+      parameters:
+      - description: Person ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated person info
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/update.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      tags:
+      - People
+    put:
+      consumes:
+      - application/json
+      description: Update person by ID with any of their information (partial or full)
+      parameters:
+      - description: Person ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated person info
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/update.Request'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      tags:
+      - People
+swagger: "2.0"
