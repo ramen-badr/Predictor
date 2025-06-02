@@ -74,7 +74,7 @@ func New(log *slog.Logger, peopleGetter PeopleGetter) http.HandlerFunc {
 		patronym := q.Get("patronym")
 		gender := q.Get("gender")
 		nationality := q.Get("nationality")
-		age, err := strconv.Atoi(q.Get("age"))
+		age, _ := strconv.Atoi(q.Get("age"))
 
 		page, err := strconv.ParseInt(q.Get("page"), 10, 64)
 		if err != nil || page < 1 {
