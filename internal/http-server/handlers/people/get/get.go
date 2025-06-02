@@ -75,13 +75,6 @@ func New(log *slog.Logger, peopleGetter PeopleGetter) http.HandlerFunc {
 		gender := q.Get("gender")
 		nationality := q.Get("nationality")
 		age, err := strconv.Atoi(q.Get("age"))
-		if err != nil {
-			log.Error("failed to get age", sLogger.Error(err))
-
-			render.JSON(w, r, response.Error("internal server error"))
-
-			return
-		}
 
 		page, err := strconv.ParseInt(q.Get("page"), 10, 64)
 		if err != nil || page < 1 {
